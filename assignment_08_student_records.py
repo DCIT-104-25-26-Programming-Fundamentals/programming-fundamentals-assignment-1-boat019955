@@ -91,7 +91,7 @@
 # =============================================================================
 def calculate_average(scores):
     if len(scores) == 0:
-        return 0
+        return 0.0
     return round(sum(scores) / len(scores), 2)
 
 
@@ -99,11 +99,26 @@ def add_student(students):
     name = input("Student name: ")
     student_id = input("Student ID: ")
 
-    num_scores = int(input("How many scores? "))
+    while True:
+        try:
+            num_scores = int(input("How many scores? "))
+            if num_scores < 0:
+                print("Error: Number of scores cannot be negative.")
+                continue
+            break
+        except ValueError:
+            print("Error: Please enter a valid number.")
+
     scores = []
 
     for i in range(num_scores):
-        score = float(input(f"Enter score {i + 1}: "))
+        while True:
+            try:
+                score = float(input(f"Enter score {i + 1}: "))
+                break
+            except ValueError:
+                print("Error: Please enter a valid score.")
+
         scores.append(score)
 
     student = {
@@ -121,17 +136,17 @@ def display_students(students):
         print("No student records found.")
         return
 
-    print("-" * 60)
-    print("Name\t\tID\t\tScores\t\tAverage")
-    print("-" * 60)
+    print("-" * 80)
+    print(f"{'Name':<20}{'ID':<15}{'Scores':<30}{'Average':<10}")
+    print("-" * 80)
 
     for student in students:
         scores_text = ", ".join(str(score) for score in student["scores"])
         average = calculate_average(student["scores"])
 
-        print(f'{student["name"]}\t{student["id"]}\t{scores_text}\t{average}')
+        print(f'{student["name"]:<20}{student["id"]:<15}{scores_text:<30}{average:<10.2f}')
 
-    print("-" * 60)
+    print("-" * 80)
 
 
 def student_average(students):

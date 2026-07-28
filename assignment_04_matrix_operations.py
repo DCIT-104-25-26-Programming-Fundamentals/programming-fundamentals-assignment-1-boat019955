@@ -63,7 +63,20 @@ def read_matrix(rows, cols):
     matrix = []
 
     for i in range(rows):
-        row = list(map(int, input(f"Enter row {i + 1}: ").split()))
+        while True:
+            row_input = input(f"Enter row {i + 1}: ")
+            values = row_input.split()
+
+            if len(values) != cols:
+                print(f"Error: Please enter exactly {cols} values.")
+                continue
+
+            try:
+                row = list(map(int, values))
+                break
+            except ValueError:
+                print("Error: Please enter valid integers.")
+
         matrix.append(row)
 
     return matrix
